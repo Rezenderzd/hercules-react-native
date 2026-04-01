@@ -1,6 +1,6 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
-export default function TarefaItem({ tarefa, onRemover, onConcluir }) {
+export default function TarefaItem({ tarefa, onRemover, onConcluir, isDarkMode }) {
   
   return (
     tarefa.completed?
@@ -13,8 +13,8 @@ export default function TarefaItem({ tarefa, onRemover, onConcluir }) {
         <Text style={styles.concluir}>✅</Text>
       </TouchableOpacity>
     </View>:
-    <View style={styles.container}>
-      <Text style={styles.texto}>{tarefa.texto}</Text>
+    <View style={[styles.container, {backgroundColor: isDarkMode? "#666":  "#eee"}]}>
+      <Text style={[styles.texto, {color: isDarkMode? "#fff": "#333"}]}>{tarefa.texto}</Text>
       <TouchableOpacity onPress={() => onRemover(tarefa.id)}>
         <Text style={styles.remover}>❌</Text>
       </TouchableOpacity>
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   texto: { fontSize: 16 },
-  textoCompleted: {color:'#fff'},
+  textoCompleted: {color:'#fff', fontSize: 16},
   remover: { fontSize: 18 },
   concluir: {fontSize: 18 },
 });

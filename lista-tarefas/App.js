@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { View, TextInput, Button, FlatList, StyleSheet } from 'react-native';
+import { View, TextInput, Button, FlatList, StyleSheet, Switch } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TarefaItem from './components/tarefas';
 
 export default function App() {
   const [tarefas, setTarefas] = useState([]);
   const [texto, setTexto] = useState('');
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const toogleSwitchDarkMode = () => setIsDarkMode(previousState => !previousState);
   //const [completed, setCompleted] = useState(false);
   //const toggleSwitch = () => setCompleted(previousState => !previousState);
 
@@ -51,7 +53,11 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: isDarkMode? "#333":  "fff"}]}>
+      <Switch
+        value = {isDarkMode}
+        onValueChange={toogleSwitchDarkMode}
+      />
       <TextInput
         value={texto}
         onChangeText={setTexto}
@@ -63,7 +69,7 @@ export default function App() {
         data={tarefas}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TarefaItem tarefa={item} onRemover={removerTarefa} onConcluir={concluirTarefa}/>
+          <TarefaItem tarefa={item} onRemover={removerTarefa} onConcluir={concluirTarefa} isDarkMode={isDarkMode}/>
         )}
       />
       <Button 
